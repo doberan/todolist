@@ -8,7 +8,14 @@ function loaded() {
     function() {
       saveText();
       showText();
-    });
+    }
+  );
+    $("#removeButton").click(
+    function() {
+      removeText();
+      showText();
+    }
+  );
 }
 // save function
 function saveText() {
@@ -79,7 +86,7 @@ function checkText(text) {
 }
 
 
-
+// show todo
 function showText() {
   var list = $("#list")
   list.children().remove();
@@ -88,6 +95,21 @@ function showText() {
     key = localStorage.key(i);
     value = localStorage.getItem(key);
     html.push("<p>" + value + "</p>");
+    html.push("<input type=\"button\" onclick=\"removeText(" + i + ");\" value=\"↑このTodoを削除\" />");
   }
   list.append(html.join(''));
+}
+
+// remove todo
+function removeText(lastItem){
+  var key;
+  if(lastItem == undefined){
+    lastItem = localStorage.length - 1;
+    key = localStorage.key(lastItem);
+    localStorage.removeItem(key);
+  }else{
+    key = localStorage.key(lastItem);
+    localStorage.removeItem(key);
+    showText();
+  }
 }
