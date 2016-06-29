@@ -14,18 +14,19 @@ function loaded() {
 function saveText() {
   var text = $("#formText");
   var time = new Date();
-  console.log(text.val);
 
   //escapeText
   var val = escapeText(text.val());
-  console.log(val);
+  
 
   //check
   if(checkText(val)) {
+
     localStorage.setItem(time, text.val());
   }
   text.val("");
 }
+
 
 //escapeText function
 function escapeText(text) {
@@ -35,7 +36,31 @@ function escapeText(text) {
 
 //check function
 function checkText(text) {
-  // 文字数が0または20以上は不可
+
+ var str = text.replace(/(&lt;)/g, '<')
+	            .replace(/(&gt;)/g, '>')
+	            .replace(/(&quot;)/g, '"')
+	            .replace(/(&#39;)/g, "'")
+	            .replace(/(&amp;)/g, '&');
+ console.log(str);
+  var strs = str.split('');
+  var tagFlag = 0;
+  for(var i = 0; i < strs.length;i++){
+  	console.log(strs[i]);
+    
+    if(strs[i] == "<"){
+		tagFlag = 1;
+    }
+    if(tagFlag == 1 && strs[i] == ">"){
+		alert("htmlタグが入力されました");
+		tagFlag = 0;
+		return false;
+    }
+  }
+
+
+
+  // 0 < length <= 21
   if (0 === text.length || 21 <= text.length) {
     alert("文字数は1〜20字にしてください");
     return false;
@@ -44,7 +69,7 @@ function checkText(text) {
   for (var i = 0; i < length; i++) {
     var key = localStorage.key(i);
     var value = localStorage.getItem(key);
-    // 内容が一致するものがあるか比較
+    // Equivalence
     if (text === value) {
       alert("同じ内容は避けてください");
       return false;
