@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!--
 	/* 仕様 */ 
 	・投稿はチェックと内容からなる。
@@ -6,7 +7,16 @@
 	・HTMLタグが入力された場合はエスケープする。
  -->
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<title>todoList</title>
+	</head>
 	<body>
-		<p>Hello World!</p>
+		<div id="todo-form">
+	    	<input id="formText" type="text" size="50" maxlength="20">
+	    	<input id="formButton" type="button" value="追加">
+	  	</div>
+	  	<div id="list"></div>
+
 	</body>
 </html>
