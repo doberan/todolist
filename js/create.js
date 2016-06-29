@@ -49,11 +49,9 @@ function checkText(text) {
 	            .replace(/(&quot;)/g, '"')
 	            .replace(/(&#39;)/g, "'")
 	            .replace(/(&amp;)/g, '&');
- console.log(str);
   var strs = str.split('');
   var tagFlag = 0;
   for(var i = 0; i < strs.length;i++){
-  	console.log(strs[i]);
     
     if(strs[i] == "<"){
 		tagFlag = 1;
@@ -91,11 +89,11 @@ function showText() {
   var list = $("#list")
   list.children().remove();
   var key, value, html = [];
-  for(var i=0, len=localStorage.length; i<len; i++) {
-    key = localStorage.key(i);
+  for(var i=0, len=localStorage.length-1; i<len; len--) {
+    key = localStorage.key(len);
     value = localStorage.getItem(key);
     html.push("<p>" + value + "</p>");
-    html.push("<input type=\"button\" onclick=\"removeText(" + i + ");\" value=\"↑このTodoを削除\" />");
+    html.push("<input type=\"button\" onclick=\"removeText(" + len + ");\" value=\"↑このTodoを削除\" />");
   }
   list.append(html.join(''));
 }
