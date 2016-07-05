@@ -2,9 +2,9 @@ $(loaded);
 
 function loaded() {
   showText();
-  // ボタンをクリックしたときに実行するイベントを設定する
+  //formButton click function 
   $("#formButton").click(
-    // コールバックとしてメソッドを引数にわたす
+    
     function() {
       saveText();
       showText();
@@ -61,8 +61,12 @@ function checkText(text) {
 		tagFlag = 0;
 		return false;
     }
+    strs[i].replace(/&/g, '&amp;')
+		    .replace(/</g, '&lt;')
+		    .replace(/>/g, '&gt;')
+		    .replace(/"/g, '&quot;')
+		    .replace(/'/g, '&#39;');
   }
-
 
 
   // 0 < length <= 21
@@ -88,12 +92,14 @@ function checkText(text) {
 function showText() {
   var list = $("#list")
   list.children().remove();
-  var key, value, html = [];
-  for(var i=0, len=localStorage.length-1; i<len; len--) {
+  var key, value,oldKey, html = [];
+  for(var i=0, len=localStorage.length-1; i<=len; len--) {
     key = localStorage.key(len);
+    if(key )
     value = localStorage.getItem(key);
-    html.push("<p>" + value + "</p>");
-    html.push("<input type=\"button\" onclick=\"removeText(" + len + ");\" value=\"↑このTodoを削除\" />");
+    html.push("<li>" + value + "</li>");
+    html.push("<input type=\"button\" onclick=\"removeText(" + len + ");\" value=\"↑ task remove\" />");
+    console.log(len + ":" + localStorage.key(len));
   }
   list.append(html.join(''));
 }
@@ -102,9 +108,7 @@ function showText() {
 function removeText(lastItem){
   var key;
   if(lastItem == undefined){
-    lastItem = localStorage.length - 1;
-    key = localStorage.key(lastItem);
-    localStorage.removeItem(key);
+    localStorage.clear();
   }else{
     key = localStorage.key(lastItem);
     localStorage.removeItem(key);
